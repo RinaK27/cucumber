@@ -16,10 +16,8 @@ After(async function () {
   }
 });
   
-Given("opens the site {string} page", async function (string) {
-  return await this.page.goto("http://qamid.tmweb.ru/client/index.php", {
-    setTimeout: 10000,
-  });
+Given("user opens the site", {timeout: 60 * 1000}, async function () {
+  return await this.page.goto("http://qamid.tmweb.ru/client/index.php");
 });
 When("user clicks on tomorrow", async function () {
   return await clickElement(this.page, "nav a + a");
@@ -38,10 +36,8 @@ Then("user goes to the payment page", async function () {
   expect(actual).toContain("Вы выбрали билеты:");
 });
 
-Given("user is on {string} page", async function (string) {
-  return await this.page.goto("http://qamid.tmweb.ru/client/index.php", {
-      setTimeout: 10000,
-    });
+Given("user is on page", {timeout: 60 * 1000}, async function () {
+  return await this.page.goto("http://qamid.tmweb.ru/client/index.php");
   });
   When("user clicks on the day after the current day", async function () {
   return await clickElement(this.page, "nav a + a");
@@ -63,10 +59,8 @@ Given("user is on {string} page", async function (string) {
     expect(actual).toContain("Вы выбрали билеты:");
   });
 
-  Given("user opens the page {string}", async function (string) {
-    return await this.page.goto("http://qamid.tmweb.ru/client/index.php", {
-      setTimeout: 10000,
-  });
+  Given("user opens the page", {timeout: 60 * 1000}, async function () {
+    return await this.page.goto("http://qamid.tmweb.ru/client/index.php");
   });
   When("user clicks on next day", async function () {
     return await clickElement(this.page, "nav a + a");
@@ -74,11 +68,23 @@ Given("user is on {string} page", async function (string) {
   When("user clicks on 10 am", async function () {
     return await clickElement(this.page, "ul li a");
   });
-  When("user click on occupied vip seat", async function () {
-    return await clickElement(this.page, 'div:nth-child(7) > span:nth-child(4)');
+  When("user clicks on seat", async function () {
+    await clickElement(this.page, 'div:nth-child(10) > span:nth-child(3)');
   });
-  When("user presses the button", async function () {
+  When("user presses the button for reservation", async function () {
     return await clickElement(this.page, 'button');
+  });
+  When("user presses the button for code", async function () {
+    return await clickElement(this.page, 'button');
+  });
+  When("user comes back for reservation page", {timeout: 60 * 1000}, async function () {
+    await this.page.goto("http://qamid.tmweb.ru/client/hall.php");
+  });
+  When("user clicks again on seat", async function () {
+    await clickElement(this.page, 'div:nth-child(10) > span:nth-child(3)');
+  });
+  When("user presses again the button for reservation", async function () {
+    await clickElement(this.page, 'button');
   });
   Then("user stays on the current page", async function (string) {
     const actual = await getText(this.page, "h2");

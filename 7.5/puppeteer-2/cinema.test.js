@@ -10,10 +10,14 @@ describe("tests cinema", () => {
   afterEach(() => {
     page.close();
   });
-  test("sad test, should not reservation seats for unavailable vip seats", async () => { 
+  test("sad test, should not reservation not available seat", async () => { 
     await clickElement(page, "nav a + a");
     await clickElement(page, "ul li a");
-    await clickElement(page, 'div:nth-child(7) > span:nth-child(4)');
+    await clickElement(page, 'div:nth-child(10) > span:nth-child(3)');
+    await clickElement(page, 'button');
+    await clickElement(page, 'button');
+    await page.goto("http://qamid.tmweb.ru/client/hall.php");
+    await clickElement(page, 'div:nth-child(10) > span:nth-child(3)');
     await clickElement(page, 'button');
     const actual = await getText(page, "h2");
     expect(actual).toContain("Терминатор-заржавел");
